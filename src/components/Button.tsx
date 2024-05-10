@@ -1,6 +1,6 @@
 interface ButtonProps {
   colorButton?: string;
-  texto: string;
+  texto: any;
   tamanho?: 'sm' | 'md' | 'lg';
   onClick: () => void;
   type?: 'button' | 'submit' | 'reset';

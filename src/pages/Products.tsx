@@ -14,7 +14,7 @@ export function Product() {
                         </div>
                     </div>
                 </NavLink >
-                <NavLink to="register/ID" end  className={({ isActive }) => (isActive ? 'activeItem' : 'inactiveItem')}>
+                <NavLink to="register" end  className={({ isActive }) => (isActive ? 'activeItem' : 'inactiveItem')}>
                     <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                         <div className="flex items-center">
                             <div className="flex-shrink-0">

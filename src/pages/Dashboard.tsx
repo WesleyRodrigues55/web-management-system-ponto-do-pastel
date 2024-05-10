@@ -1,23 +1,95 @@
 
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockIcon from '@mui/icons-material/Lock';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Toaster, toast } from 'sonner';
 
 export function DashBoard() {
+    const [clickStore, setClickStore] = useState(false);
+    const url = import.meta.env.VITE_URL_BASE;
+    const token = localStorage.getItem("token");
+
+    const [status, setStatus] = useState(Number);
+    const [id, setID] = useState('');
+
+    const handleClickStore = (e: any) => {
+        e.preventDefault();
+
+        axios
+            .put(
+                `${url}store/update-status/${id}`, 
+                {
+                    status: status == 1 ? 0 : 1
+                }, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        ContentType: 'application/json'
+                    }
+                }
+            )
+            .then((response) => {
+                if (status == 1) {
+                    setStatus(0);
+                    return toast.warning(`A loja foi fechada!`)
+                } else {
+                    setStatus(1);
+                    return toast.success(`A loja foi aberta!`)
+                }
+            })
+            .catch((error) => {
+                toast.error('Ocorreu um erro ao fechar/abrir a loja. Tente novamente!', )
+            });
+    }
+
+
+    useEffect(() => {
+        const fetchGetStatus = async() => {
+            try {
+                const response = await axios.get(`${url}store/get-status`);
+                setID(response.data.results[0]['_id']);
+                setStatus(response.data.results[0]['status']);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchGetStatus();
+    }, [])
+
+
     return (
         <>
             <div className="mt-4 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-                    <div className="flex items-center">
-                        <div className="flex-shrink-0">
-                        <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">2,340</span>
-                        <h3 className="text-base font-normal text-gray-500">New products this week</h3>
-                        </div>
-                        <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                        14.6%
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clipRule="evenodd"></path>
-                        </svg>
+
+                <button
+                    onClick={handleClickStore}
+                >
+                    <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+                        <div className="flex items-center">
+                            <div className="flex-shrink-0">
+                                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                                    {status == 1 ? 'Open store' : 'Store closed'}
+                                </span>
+                                <h3 className="text-base font-normal text-gray-500">
+                                    {status == 1 ? 'Click to close the store' : 'Click to open the store'}
+                                </h3>
+                            </div>
+                            {status == 1 ? 
+                                 <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold"> 
+                                    <LockOpenIcon />
+                                </div>
+                            : 
+                               
+                                <div className="ml-5 w-0 flex items-center justify-end flex-1 text-redPrincipal-900 text-base font-bold">   
+                                    <LockIcon />
+                                </div>
+                            } 
                         </div>
                     </div>
-                </div>
+                </button>
+
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
@@ -251,6 +323,7 @@ export function DashBoard() {
                     </div>
                 </div>
             </div>
+            <Toaster expand={true} richColors/>
         </>
     )
 }
