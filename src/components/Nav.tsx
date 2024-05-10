@@ -27,7 +27,15 @@ export function Nav({ toggleSidebarMobile, isSidebarHidden }: NavProps) {
                     </a>
                     </div>
                     <div className="flex items-center">
-                        <Button onClick={() => {}} texto='Button' colorButton="bg-redPrincipal-900" type='button'></Button>
+                        <Button 
+                            onClick={() => {
+                                localStorage.removeItem('token');
+                                window.location.href = '/login'
+                            }} 
+                            texto='Logout' 
+                            colorButton="bg-redPrincipal-900" 
+                            type='button'
+                        />
                     </div>
                 </div>
             </div>

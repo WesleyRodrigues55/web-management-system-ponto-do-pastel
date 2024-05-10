@@ -32,7 +32,7 @@ export default function privateRoutes() {
             element: <EditProduct />,
           },
           {
-            path: "register/:id",
+            path: "register/",
             element: <RegisterProduct />,
           },
           
