@@ -113,8 +113,8 @@ export function ListProducts() {
                         <tr className="bg-blue-gray-100 text-gray-700">
                             <th className="py-3 px-4 text-left">Name</th>
                             <th className="py-3 px-4 text-left">Description</th>
-                            <th className="py-3 px-4 text-left">Price</th>
-                            <th className="py-3 px-4 text-left">Category</th>
+                            <th className="py-3 px-4 text-left w-[10%]">Price</th>
+                            <th className="py-3 px-4 text-left w-[10%]">Category</th>
                             <th className="py-3 px-4 text-left">Action</th>
                         </tr>
                     </thead>
@@ -123,8 +123,8 @@ export function ListProducts() {
                             <tr key={index} className="border-b border-blue-gray-200 hover:bg-gray-200">
                                 <td className="py-3 px-4">{item['nome']}</td>
                                 <td className="py-3 px-4">{item['descricao']}</td>
-                                <td className="py-3 px-4" width='10%'>{item['preco']}</td>
-                                <td className="py-3 px-4" width='10%'>{item['categoria']}</td>
+                                <td className="py-3 px-4">{item['preco']}</td>
+                                <td className="py-3 px-4">{item['categoria']}</td>
                                 <td className="py-5 px-4 flex gap-3">
                                     <Button 
                                         texto={<NavLink to={`update/${item['_id']}`}><BorderColorIcon /></NavLink>} 

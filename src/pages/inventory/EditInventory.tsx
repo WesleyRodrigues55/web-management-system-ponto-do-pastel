@@ -106,6 +106,7 @@ export function EditInventory() {
                         idAndNameInput={"descricao"} 
                         onChange={(e) => setDescription(e.target.value)} 
                         placeholder={"Enter the description of item..."}
+                        readonly={true}
                     />
 
                     <Input 

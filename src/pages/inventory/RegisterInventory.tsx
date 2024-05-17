@@ -127,7 +127,7 @@ export function RegisterInventory() {
                         </select>
                     </div>
 
-                    <Button type="submit" texto="Register product" colorButton="bg-redPrincipal-900" tamanho="md" onClick={()=>{}} />
+                    <Button type="submit" texto="Register stock" colorButton="bg-redPrincipal-900" tamanho="md" onClick={()=>{}} />
                 </form>
             </div>
             <Toaster expand={true} richColors/>

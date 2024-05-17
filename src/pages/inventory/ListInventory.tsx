@@ -37,34 +37,6 @@ export function ListInventory() {
     const endIndex = Math.min(startIndex + itemsPerPage, filteredData.length);
     const currentPageData = filteredData.slice(startIndex, endIndex);
 
-
-    const handleSubmitStatusProduct = async (itemId: any, activate: any) => {
-        axios
-        .put(
-            `${url}product/status-product/${itemId}/${activate}`, 
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    ContentType: 'application/json'
-                }
-            }
-        )
-        .then((response) => {
-            if (response.status !== 200) {
-                return toast.warning(`Produto não foi desativado`)
-            }
-            setData(prevItems => prevItems.filter(item => item['_id'] !== itemId));
-            if (activate == 1) {
-                return toast.success(`Produto desativado com sucesso!`);  
-            }
-            return toast.success(`Produto ativado com sucesso!`);
-        })
-        .catch((error) => {
-            toast.error('Ocorreu um erro ao desativar o produto. Tente novamente!', )
-        });
-    };
-
     const handlePageClick = (selectedPage: any) => {
         setCurrentPage(selectedPage.selected);
     };
@@ -119,44 +91,27 @@ export function ListInventory() {
                 <table className="min-w-full bg-white rounded-xl">
                     <thead>
                         <tr className="bg-blue-gray-100 text-gray-700">
-                            <th className="py-3 px-4 text-left">Description</th>
-                            <th className="py-3 px-4 text-left">Quantity</th>
+                            <th className="py-3 px-4 text-left w-25">Description</th>
+                            <th className="py-3 px-4 text-left w-25">Quantity</th>
                             {/* <th className="py-3 px-4 text-left">Price</th> */}
-                            <th className="py-3 px-4 text-left">Unit of Measure</th>
-                            <th className="py-3 px-4 text-left">Action</th>
+                            <th className="py-3 px-4 text-left w-25">Unit of Measure</th>
+                            <th className="py-3 px-4 text-left w-25">Action</th>
                         </tr>
                     </thead>
                     <tbody className="text-blue-gray-900">
                         {currentPageData.map((item, index) => (                            
                             <tr key={index} className="border-b border-blue-gray-200 hover:bg-gray-200">
-                                <td className="py-3 px-4" width='25%'>{item['descricao']}</td>
-                                <td className="py-3 px-4" width='25%'>{item['quantidade']}{item['unidade_medida'] == 'grama' ? 'g' : 'kg'}</td>
+                                <td className="py-3 px-4">{item['descricao']}</td>
+                                <td className="py-3 px-4">{item['quantidade']}{item['unidade_medida'] == 'grama' ? 'g' : 'kg'}</td>
                                 {/* <td className="py-3 px-4">{item['valor']}</td> */}
-                                <td className="py-3 px-4"  width='25%'>{item['unidade_medida']}</td>
-                                <td className="py-5 px-4 flex gap-3" width='25%'>
+                                <td className="py-3 px-4" >{item['unidade_medida']}</td>
+                                <td className="py-5 px-4 flex gap-3 w-[80px]">
                                     <Button 
                                         texto={<NavLink to={`update/${item['_id']}`}><BorderColorIcon /></NavLink>} 
                                         type='submit'
                                         colorButton='bg-blue-600'
                                         onClick={() => {}} 
-                                    />
-                                    {item['ativo'] == 1 ? 
-                                        <Button 
-                                            texto={<VisibilityOffIcon />} 
-                                            colorButton='bg-redPrincipal-900'
-                                            onClick={() => {
-                                                handleSubmitStatusProduct(item["_id"], item['ativo']);
-                                            }} 
-                                        /> :    
-                                            <Button 
-                                                texto={<VisibilityIcon />} 
-                                                colorButton='bg-black'
-                                                onClick={() => {
-                                                    handleSubmitStatusProduct(item["_id"], item['ativo']);
-                                                }} 
-                                            />
-                                    } 
-                                    
+                                    />                                    
                                 </td>
                             </tr>
                             
