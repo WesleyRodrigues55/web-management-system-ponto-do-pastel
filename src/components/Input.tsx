@@ -6,9 +6,10 @@ interface InputProps {
     value?: string;
     onChange?: (e: any) => void;
     onkeydown?: (e: any) => void;
+    readonly?: boolean
 }
 
-export default function Input( { label, typeInput, idAndNameInput, placeholder, value, onChange, onkeydown} : InputProps) {
+export default function Input( { label, typeInput, idAndNameInput, placeholder, value, readonly, onChange, onkeydown} : InputProps) {
  
     return (
         <div className="mb-4">
@@ -37,6 +38,7 @@ export default function Input( { label, typeInput, idAndNameInput, placeholder, 
                     onChange={onChange}
                     onKeyDown={onkeydown}
                     required 
+                    readOnly={readonly ? true : false}
                 />
             }
         </div>
