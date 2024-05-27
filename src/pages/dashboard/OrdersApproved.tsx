@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 
 export default function OrdersApproved() {
-    const url = import.meta.env.VITE_URL_BASE_DEV;
+    const url = import.meta.env.VITE_URL_BASE;
     const token = localStorage.getItem("token");
 
     const [dataOrder, setDataOrder] = useState([])

@@ -7,9 +7,10 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
+import { toast } from "sonner";
 
 export default function LatestOrder() {
-    const url = import.meta.env.VITE_URL_BASE_DEV;
+    const url = import.meta.env.VITE_URL_BASE;
     const token = localStorage.getItem("token");
 
     const [data, setData] = useState([])
@@ -25,6 +26,45 @@ export default function LatestOrder() {
         setIsModalOpen(false);
     };
 
+    const handleClickApproved = (e: any, itemID: String, carrinhoID: String) => {
+        e.preventDefault();
+
+        console.log(`pedido id: ${itemID}`);
+        console.log(`carrinho id: ${carrinhoID}`);
+
+        // ação para inserir dado em status_entrega_produto
+        insertOrderDeliveryStatus(itemID, carrinhoID);
+    }
+
+    const insertOrderDeliveryStatus = async (itemId: String, carrinhoID: String) => {
+        let newDate = new Date()
+        try {
+            const response = await axios.post(
+                `${url}order-delivery-status/insert-order-delivery-status`,
+                {
+                    carrinho_id: carrinhoID,
+                    detalhes_do_pedido_id: itemId,
+                    status_pedido: "em preparo",
+                    data_pedido: newDate.toISOString(),
+                }, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        ContentType: 'application/json'
+                    }
+                },
+            )
+            .then((response) => {
+                if (response.status != 200) {
+                    return toast.warning(`Erro ao mover pedido n°[${itemId}] para preparo.`)
+                }
+    
+                return toast.success(`Pedido n°[${itemId}] movido para  "Em preparo"!`)
+            })
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
 
     const formatDateTime = (isoDate: any) => {
         const date = new Date(isoDate);
@@ -48,7 +88,7 @@ export default function LatestOrder() {
     const fetchOrder = async () => {
         try {
             const response = await axios.get(
-                `${url}order-datails/get-approved-orders`,
+                `${url}order-details/get-approved-orders`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -112,8 +152,11 @@ export default function LatestOrder() {
                                     />
 
                                     {/* aprovar pedido (pedido é movido para "pedidos em preparo") - card ao lado */}
+                                    {/* quando clicado, insere na coleção "status_entrega_pedido" carrinho_id, detalhes_do_pedido_id, e status "em preparo" */}
                                     <Button 
-                                        onClick={() => {}}
+                                        onClick={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            handleClickApproved(e, item['_id'], item['carrinho_id']);
+                                        }}
                                         texto={<div className=" text-green-500"><ThumbUpAltIcon /></div>}
                                         colorButton="bg-gray-100"
                                         type="button"

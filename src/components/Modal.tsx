@@ -8,7 +8,7 @@ interface ModalProps {
 }
 
 export default function Modal({ isOpen, onClose, itemId  } : ModalProps) {
-  const url = import.meta.env.VITE_URL_BASE_DEV;
+  const url = import.meta.env.VITE_URL_BASE;
   const token = localStorage.getItem("token");
   
   // const [data, setData] = useState([])
