@@ -7,7 +7,7 @@ import { Toaster, toast } from "sonner";
 
 export function RegisterInventory() {
     
-    const url = import.meta.env.VITE_URL_BASE;
+    const url = import.meta.env.VITE_URL_BASE_DEV;
     const token = localStorage.getItem("token");
 
     const [ingredientId, setIngredientId] = useState('');

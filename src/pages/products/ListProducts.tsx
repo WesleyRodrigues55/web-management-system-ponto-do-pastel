@@ -14,7 +14,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ImageIcon from '@mui/icons-material/Image';
 
 export function ListProducts() {
-    const url = import.meta.env.VITE_URL_BASE;
+    const url = import.meta.env.VITE_URL_BASE_DEV;
     const token = localStorage.getItem("token");
     
     const [data, setData] = useState([]);

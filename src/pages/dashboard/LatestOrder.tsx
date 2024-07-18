@@ -10,7 +10,7 @@ import Modal from "../../components/Modal";
 import { toast } from "sonner";
 
 export default function LatestOrder() {
-    const url = import.meta.env.VITE_URL_BASE;
+    const url = import.meta.env.VITE_URL_BASE_DEV;
     const token = localStorage.getItem("token");
 
     const [data, setData] = useState([])
@@ -26,26 +26,18 @@ export default function LatestOrder() {
         setIsModalOpen(false);
     };
 
-    const handleClickApproved = (e: any, itemID: String, carrinhoID: String) => {
+    const handleClickApproved = (e: any, itemID: String) => {
         e.preventDefault();
-
-        console.log(`pedido id: ${itemID}`);
-        console.log(`carrinho id: ${carrinhoID}`);
-
-        // ação para inserir dado em status_entrega_produto
-        insertOrderDeliveryStatus(itemID, carrinhoID);
+        updateOrderDeliveryStatus(itemID);
     }
 
-    const insertOrderDeliveryStatus = async (itemId: String, carrinhoID: String) => {
+    const updateOrderDeliveryStatus = async (itemId: String) => {
         let newDate = new Date()
         try {
-            const response = await axios.post(
-                `${url}order-delivery-status/insert-order-delivery-status`,
+            const response = await axios.put(
+                `${url}order-details/update-order-delivery-status`,
                 {
-                    carrinho_id: carrinhoID,
                     detalhes_do_pedido_id: itemId,
-                    status_pedido: "em preparo",
-                    data_pedido: newDate.toISOString(),
                 }, 
                 {
                     headers: {
@@ -107,7 +99,7 @@ export default function LatestOrder() {
 
         setInterval(() => {
             fetchOrder()
-          }, 5000);
+          }, 1000);
     }, [])
 
     return (
@@ -122,10 +114,10 @@ export default function LatestOrder() {
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm font-bold text-gray-500">
-                                        Pedido N° {index}
+                                        Pedido N° {index + 1}
                                     </p>
                                     <p className="text-sm text-gray-500">
-                                        {formatDateTime(item['data_pedido'])}
+                                        {formatDateTime(item['data_pedido'])} - Pedido aguardando aprovação
                                     </p>
                                 </div>
 
@@ -155,7 +147,7 @@ export default function LatestOrder() {
                                     {/* quando clicado, insere na coleção "status_entrega_pedido" carrinho_id, detalhes_do_pedido_id, e status "em preparo" */}
                                     <Button 
                                         onClick={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                            handleClickApproved(e, item['_id'], item['carrinho_id']);
+                                            handleClickApproved(e, item['_id']);
                                         }}
                                         texto={<div className=" text-green-500"><ThumbUpAltIcon /></div>}
                                         colorButton="bg-gray-100"

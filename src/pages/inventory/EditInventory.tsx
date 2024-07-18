@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 
 export function EditInventory() {
     
-    const url = import.meta.env.VITE_URL_BASE;
+    const url = import.meta.env.VITE_URL_BASE_DEV;
     const token = localStorage.getItem("token");
     const { id } = useParams();
 
