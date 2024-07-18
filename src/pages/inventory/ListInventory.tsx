@@ -14,7 +14,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export function ListInventory() {
-    const url = import.meta.env.VITE_URL_BASE;
+    const url = import.meta.env.VITE_URL_BASE_DEV;
     const token = localStorage.getItem("token");
     
     const [data, setData] = useState([]);

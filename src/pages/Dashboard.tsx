@@ -9,7 +9,7 @@ import OrdersApproved from './dashboard/OrdersApproved';
 
 export function DashBoard() {
     const [clickStore, setClickStore] = useState(false);
-    const url = import.meta.env.VITE_URL_BASE;
+    const url = import.meta.env.VITE_URL_BASE_DEV;
     const token = localStorage.getItem("token");
 
     const [status, setStatus] = useState(Number);

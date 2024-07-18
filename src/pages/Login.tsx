@@ -9,7 +9,7 @@ import Input from '../components/Input.tsx';
 
 export function Login() {
 
-    const url = import.meta.env.VITE_URL_BASE;
+    const url = import.meta.env.VITE_URL_BASE_DEV;
 
     const [username, setUsername] = useState('');
     const [senha, setSenha] = useState('');
